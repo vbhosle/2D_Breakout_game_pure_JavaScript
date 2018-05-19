@@ -1,6 +1,8 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
+var score = 0;
+
 // ball parameters
 var ballRadius = 10;
 var x = canvas.width/2;
@@ -40,10 +42,21 @@ function collisionDetection() {
                 if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                     dy = -dy;
                     b.status = 0;
+					score++;
+					if(score == brickRowCount*brickColumnCount) {
+                        alert("YOU WIN, CONGRATULATIONS!");
+                        document.location.reload();
+                    }
                 }
             }
         }
     }
+}
+
+function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: "+score, 8, 20);
 }
 
 function drawBricks() {
@@ -86,6 +99,7 @@ function draw() {
     drawBall();
     drawPaddle();
 	collisionDetection();
+	drawScore();
 
     //move ball
     x += dx;
